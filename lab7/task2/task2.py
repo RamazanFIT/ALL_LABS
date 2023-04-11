@@ -3,16 +3,12 @@ import os
 import time
 
 pygame.init()
-screen = pygame.display.set_mode()
+pygame.display.set_mode()
 
+path = "C:\\Users\\Akken\\Desktop\\coding\\python\\pygame\\musics\\"
 
-path = "C:\\Users\\Akken\\Desktop\\labs\\lab7\\task2\\musics\\"
-picture = pygame.image.load("Снимок.PNG")
 list_of_music = os.listdir(path)
-picture = pygame.transform.scale(picture, screen.get_rect().size)
-screen.blit(picture, (0, 0))
-# print(list_of_music)
-pygame.display.update()
+print(list_of_music)
 current = 0
 while True:
     for event in pygame.event.get():
