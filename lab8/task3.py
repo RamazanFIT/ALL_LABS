@@ -41,7 +41,7 @@ def main():
             color = pygame.Color("red")
             points_list = list()
         elif keyboard[K_e]:
-            color = pygame.Color("white")
+            color = "white"
             points_list = list()
         elif keyboard[K_k]:
             flag = True
@@ -65,6 +65,8 @@ def main():
             elif keyboard[K_LCTRL]:
                 size_rect = max(1, size_rect - 1)
             global flag_some
+            if color == "white":
+                color = "black"
             if mouse_press[0]:
                 flag_some = True
                 points_list.append(coord_mouse)
@@ -73,12 +75,15 @@ def main():
                 v1 = points_list[0]
                 v2 = points_list[-1]
                 # some_rect = pygame.Rect(points_list[0], ((points_list[-1][0] - points_list[0][0]), (points_list[-1][1] - points_list[0][1])))
+                size_rect = max(1, radius // 4)
                 some_rect = pygame.Rect(min(v1[0], v2[0]), min(v1[1], v2[1]), abs(v1[0] - v2[0]), abs(v1[1] - v2[1]))
                 pygame.draw.rect(main_screen, color, some_rect, size_rect)
                 points_list = list()
         elif flag_circle:
             
             global circuit_var_flag
+            if color == "white":
+                color = "black"
             if mouse_press[0]:
                 circuit_var_flag = True
                 points_list.append(coord_mouse)
@@ -86,8 +91,9 @@ def main():
                 flag_circle = False
                 j1 = points_list[0]
                 j2 = points_list[-1]
+                size_of_circuit = max(1, radius // 4)
                 pygame.draw.circle(main_screen, color, (min(j1[0], j2[0]) + abs(j1[0] - j2[0]) / 2,
-                min(j1[1], j2[1]) + abs(j1[1] - j2[1]) / 2), max(abs(j1[1] - j2[1]), abs(j1[0] - j2[0])) / 2, 1)
+                min(j1[1], j2[1]) + abs(j1[1] - j2[1]) / 2), max(abs(j1[1] - j2[1]), abs(j1[0] - j2[0])) / 2, size_of_circuit)
                 points_list = list()
         else:
             if keyboard[K_UP]:
