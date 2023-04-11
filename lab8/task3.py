@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 def dwar_two_point(point_1, point_2, radius, main_screen, color):
     dx = abs(point_2[0] - point_1[0])
     dy = abs(point_1[1] - point_2[1])
-    for i in range(1, max(dx, dy)):
+    for i in range(0, max(dx, dy)):
         procent = i / max(dy, dx)
         x = point_1[0] + (point_2[0] - point_1[0]) * procent 
         y = point_1[1] + (point_2[1] - point_1[1]) * procent
