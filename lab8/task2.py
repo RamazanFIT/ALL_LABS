@@ -8,7 +8,7 @@ class Snake(pygame.sprite.Sprite):
     def __init__(self, size_of_main_screen):
         super().__init__()
         self.size_of_main_screen = size_of_main_screen
-        self.size_block = 25
+        self.size_block = 20
         self.start_pos = (random.randint(5, size_of_main_screen[0] // self.size_block), random.randint(5, size_of_main_screen[1] // self.size_block))
         self.massive_snake = [self.start_pos]
         self.up = False
@@ -63,7 +63,7 @@ class Snake(pygame.sprite.Sprite):
                 # self.rect.center = (self.rect.center[0] - self.speed, self.rect.center[1])
                 self.massive_snake[0] = (self.massive_snake[0][0] - 1, self.massive_snake[0][1])
         if self.right:
-            if self.massive_snake[0][0] >= self.size_of_main_screen[0] // self.size_block:
+            if self.massive_snake[0][0] >= self.size_of_main_screen[0] // self.size_block - 1:
                 self.gameover = True
             else:
                 self.massive_snake[0] = (self.massive_snake[0][0] + 1, self.massive_snake[0][1])
@@ -83,7 +83,7 @@ class Snake(pygame.sprite.Sprite):
             self.draw_block("green", i[0], i[1], main_screen)
 
     def eda(self):
-        self.steak = (random.randint(5, self.size_of_main_screen[0] // self.size_block), random.randint(5, self.size_of_main_screen[1] // self.size_block))
+        self.steak = (random.randint(5, self.size_of_main_screen[0] // self.size_block - 1), random.randint(5, self.size_of_main_screen[1] // self.size_block - 1))
 
     def build_eda(self):
         self.draw_block("yellow", self.steak[0], self.steak[1], self.main_screen)
@@ -95,7 +95,7 @@ class Snake(pygame.sprite.Sprite):
             self.add_part = 0
             self.flag = True
     def collide_by_yourself(self):
-        for i in range(1, len(self.massive_snake)):
+        for i in range(3, len(self.massive_snake)):
             if self.massive_snake[0] == self.massive_snake[i]:
                 self.gameover = True
 points = 0
@@ -178,4 +178,3 @@ while True:
     FramePerSecond.tick(FPS)
 
     
-
