@@ -23,7 +23,7 @@ clock_minute = pygame.image.load("roma_clock-removebg-preview.png")
 
 while True:
     for event in pygame.event.get():
-        if event == pygame.QUIT:
+        if event.type == pygame.QUIT:
             pygame.quit()
             exit()
     clock_main.blit(h, (0, 0))
