@@ -9,7 +9,7 @@ class Snake(pygame.sprite.Sprite):
         super().__init__()
         self.size_of_main_screen = size_of_main_screen
         self.size_block = 25
-        self.start_pos = (random.randint(5, size_of_main_screen[0] // self.size_block), random.randint(5, size_of_main_screen[1] // self.size_block))
+        self.start_pos = (random.randint(5, size_of_main_screen[0] // self.size_block - 1), random.randint(5, size_of_main_screen[1] // self.size_block - 1))
         self.massive_snake = [self.start_pos]
         self.up = False
         self.down = False
@@ -50,7 +50,7 @@ class Snake(pygame.sprite.Sprite):
                 self.massive_snake[0] = (self.massive_snake[0][0], self.massive_snake[0][1] - 1)
 
         if self.down:
-            if self.massive_snake[0][1]  >= self.size_of_main_screen[1] // self.size_block:
+            if self.massive_snake[0][1]  >= self.size_of_main_screen[1] // self.size_block - 1:
                 self.gameover = True
             else:
                 # self.rect.center = (self.rect.center[0], self.rect.center[1] + self.speed)
@@ -63,7 +63,7 @@ class Snake(pygame.sprite.Sprite):
                 # self.rect.center = (self.rect.center[0] - self.speed, self.rect.center[1])
                 self.massive_snake[0] = (self.massive_snake[0][0] - 1, self.massive_snake[0][1])
         if self.right:
-            if self.massive_snake[0][0] >= self.size_of_main_screen[0] // self.size_block:
+            if self.massive_snake[0][0] >= self.size_of_main_screen[0] // self.size_block - 1:
                 self.gameover = True
             else:
                 self.massive_snake[0] = (self.massive_snake[0][0] + 1, self.massive_snake[0][1])
@@ -83,7 +83,7 @@ class Snake(pygame.sprite.Sprite):
             self.draw_block("green", i[0], i[1], main_screen)
 
     def eda(self):
-        self.steak = (random.randint(5, self.size_of_main_screen[0] // self.size_block), random.randint(5, self.size_of_main_screen[1] // self.size_block))
+        self.steak = (random.randint(5, self.size_of_main_screen[0] // self.size_block - 1), random.randint(5, self.size_of_main_screen[1] // self.size_block - 1))
 
     def build_eda(self):
         self.draw_block("yellow", self.steak[0], self.steak[1], self.main_screen)
@@ -95,7 +95,7 @@ class Snake(pygame.sprite.Sprite):
             self.add_part = 0
             self.flag = True
     def collide_by_yourself(self):
-        for i in range(1, len(self.massive_snake)):
+        for i in range(3, len(self.massive_snake)):
             if self.massive_snake[0] == self.massive_snake[i]:
                 self.gameover = True
 points = 0
@@ -104,6 +104,9 @@ level_font = pygame.font.SysFont("Vergana", 30)
 main_screen = pygame.display.set_mode((700, 700))
 
 some_snake = Snake(main_screen.get_rect().size)
+image = pygame.image.load("background.png")
+image = pygame.transform.scale(image, main_screen.get_rect().size)
+
 level = 0
 FramePerSecond = pygame.time.Clock()
 cnt = 0
@@ -155,7 +158,8 @@ while True:
             else:
                 some_snake.eda()
 
-    draw_play_desk()
+    # draw_play_desk()
+    main_screen.blit(image, (0, 0))
     some_snake.paint(main_screen)
     pic_coin = point_font.render("Score: " + str(points), True, pygame.Color("blue"))
     pic_level = level_font.render("Level: " + str(level), True, pygame.Color("yellow"))

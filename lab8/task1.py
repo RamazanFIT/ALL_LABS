@@ -11,13 +11,13 @@ class Anti_cars(pygame.sprite.Sprite):
         self.size_of_main_screen = size_of_main_screen
         self.image = pygame.image.load("Enemy.png")
         self.rect = self.image.get_rect()
-        self.start_pos = (random.randint(5, self.size_of_main_screen[0]), 5)
+        self.start_pos = (random.randint(5, self.size_of_main_screen[0]) - 50, 5)
         self.rect.center = self.start_pos
         self.some_value = 2
     
     def walk(self):
         if self.rect.center[1] > self.size_of_main_screen[1]:
-            self.rect.center = (random.randint(5, self.size_of_main_screen[0]), 5)
+            self.rect.center = (random.randint(5, self.size_of_main_screen[0] - 50), 5)
         else:
             self.rect.center = (self.rect.center[0], self.rect.center[1] + self.some_value)
     
@@ -30,7 +30,7 @@ class Cars(pygame.sprite.Sprite):
         super().__init__
         self.size_of_main_screen = size_of_main_screen
         self.image = pygame.image.load("Player.png")
-        self.start_pos = (random.randint(5, self.size_of_main_screen[0]), self.size_of_main_screen[1] * 0.8)
+        self.start_pos = (random.randint(5, self.size_of_main_screen[0] - 50), self.size_of_main_screen[1] * 0.8)
         self.rect = self.image.get_rect()
         self.rect.center = self.start_pos
         self.speed = 4
@@ -63,8 +63,8 @@ class Cars(pygame.sprite.Sprite):
         self.main_image.blit(self.image, self.rect.center)
 
     def coin(self):
-        self.rect_coin.center = (random.randint(2, self.size_of_main_screen[0] - 10), 
-                                    random.randint(2, self.size_of_main_screen[1] - 10))
+        self.rect_coin.center = (random.randint(2, self.size_of_main_screen[0] - 15), 
+                                    random.randint(2, self.size_of_main_screen[1] - 30))
     def build_coin(self, main_image):
         self.main_image = main_image
         self.main_image.blit(self.image_coin, self.rect_coin.center)
