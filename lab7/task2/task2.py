@@ -1,11 +1,16 @@
 import pygame
 import os
 import time
+import random
 
 pygame.init()
-pygame.display.set_mode()
+display = pygame.display.set_mode((700, 700))
+image = pygame.image.load("apple.jpg")
+image = pygame.transform.scale(image, display.get_rect().size)
 
-path = "C:\\Users\\Akken\\Desktop\\coding\\python\\pygame\\musics\\"
+display.blit(image, (0, 0))
+pygame.display.update()
+path = "musics\\"
 
 list_of_music = os.listdir(path)
 print(list_of_music)
@@ -18,6 +23,7 @@ while True:
     
     key = pygame.key.get_pressed()
     if key[pygame.K_p]:
+        current = random.randint(0, len(list_of_music) - 1)
         pygame.mixer.music.load(path + list_of_music[current])
         pygame.mixer.music.play(1)
         

@@ -15,17 +15,21 @@ pygame.init()
 clock_main = pygame.display.set_mode((900, 700))
 h = pygame.image.load("clock_main.png")
 h = pygame.transform.scale(h, clock_main.get_size())
-clock_main.blit(h, (0, 0))
+disney = pygame.image.load("disney.jpg")
+disney = pygame.transform.scale(disney, clock_main.get_rect().size)
+clock_main.blit(disney, (0, 0))
 clock_second = pygame.image.load("clock_second-removebg-preview (1).png")
+clock_main.blit(h, (0, 0))
 cl = clock_main.get_rect().center
 
 clock_minute = pygame.image.load("roma_clock-removebg-preview.png")
 
 while True:
     for event in pygame.event.get():
-        if event == pygame.QUIT:
+        if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+    clock_main.blit(disney, (0, 0))
     clock_main.blit(h, (0, 0))
     time_now = datetime.datetime.now()
     seconds_time = time_now.second
