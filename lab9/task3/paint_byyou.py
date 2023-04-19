@@ -1,11 +1,52 @@
 import pygame
 from pygame.locals import *
 import time
-
+import math
 
 pygame.init()
 
 clock = pygame.time.Clock()
+
+def draw_right_triangle(x_up, y_up, x_down, y_down, main_screen, color, size):
+    a = x_down - x_up
+    b = a / 2
+    h = b * math.sqrt(3)
+    x_pos = x_down - b
+    y_pos = y_down - h
+    pygame.draw.line(main_screen, color, (x_down, y_down), (x_pos, y_pos), size)
+    pygame.draw.line(main_screen, color, (x_up, y_down), (x_pos, y_pos), size)
+    pygame.draw.line(main_screen, color, (x_up, y_down), (x_down, y_down), size)
+    
+def draw_equilateral_triangle(x_up, y_up, x_down, y_down, main_screen, color, size):
+    h = y_down - y_up
+    a = x_down - x_up
+    b = a / 2
+    x_pos = x_up + b
+    y_pos = y_up
+    pygame.draw.line(main_screen, color, (x_down, y_down), (x_pos, y_pos), size)
+    pygame.draw.line(main_screen, color, (x_up, y_down), (x_pos, y_pos), size)
+    pygame.draw.line(main_screen, color, (x_up, y_down), (x_down, y_down), size)
+
+def draw_rhombus(x_up, y_up, x_down, y_down, main_screen, color, size):
+    b = (x_down - x_up) / 2
+    a = (y_down - y_up) / 2
+
+    x1_pos = x_up + b
+    y1_pos = y_up
+
+    x2_pos = x_down
+    y2_pos = y_down - a
+
+    x3_pos = x_down - b
+    y3_pos = y_down
+
+    x4_pos = x_up
+    y4_pos = y_up + a
+
+    pygame.draw.line(main_screen, color, (x1_pos, y1_pos), (x2_pos, y2_pos), size)
+    pygame.draw.line(main_screen, color, (x2_pos, y2_pos), (x3_pos, y3_pos), size)
+    pygame.draw.line(main_screen, color, (x3_pos, y3_pos), (x4_pos, y4_pos), size)
+    pygame.draw.line(main_screen, color, (x4_pos, y4_pos), (x1_pos, y1_pos), size)
 
 def dwar_two_point(point_1, point_2, radius, main_screen, color):
     dx = abs(point_2[0] - point_1[0])
@@ -19,7 +60,9 @@ def dwar_two_point(point_1, point_2, radius, main_screen, color):
 color = pygame.Color("black")
 size_rect = 1
 flag_some = False
-
+flag_some_second = False
+flag_some_third = False
+flag_some_fourth = False
 circuit_var_flag = False
 def main():
 
@@ -32,7 +75,9 @@ def main():
     image = pygame.transform.scale(image, (main_screen.get_rect().size[0] // 4, main_screen.get_rect().size[1] // 6))
     main_screen.blit(image, (0, 0))
     flag = False
-
+    right_triangle = False
+    equilateral_triangle = False
+    rhombus = False
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -62,7 +107,12 @@ def main():
             color = pygame.Color("purple")
         elif keyboard[K_v]:
             color = "violet"
-
+        elif keyboard[K_1]:
+            right_triangle = True
+        elif keyboard[K_2]:
+            equilateral_triangle = True
+        elif keyboard[K_3]:
+            rhombus = True
         if flag:
             global size_rect
             if keyboard[K_LSHIFT]:
@@ -108,8 +158,56 @@ def main():
                 min(j1[1], j2[1]) + abs(j1[1] - j2[1]) / 2), max(abs(j1[1] - j2[1]), abs(j1[0] - j2[0])) / 2, size_of_circuit)
                 points_list = list()
                 
-
+        elif right_triangle:
+            
+            global flag_some_second 
+            if color == "white":
+                color = "black"
+            if mouse_press[0]:
+                flag_some_second = True
+                points_list.append(coord_mouse)
+            if flag_some_second and not mouse_press[0] and len(points_list) >= 2:
+                right_triangle = False
+                v1 = points_list[0]
+                v2 = points_list[-1]
                 
+                size_triangle = max(1, radius // 4)
+                draw_right_triangle(min(v1[0], v2[0]), min(v1[1], v2[1]), max(v1[0], v2[0]), max(v1[1], v2[1]), main_screen, color, size_triangle)
+              
+                points_list = list()
+        elif equilateral_triangle:
+            global flag_some_third
+            if color == "white":
+                color = "black"
+            if mouse_press[0]:
+                flag_some_third = True
+                points_list.append(coord_mouse)
+            if flag_some_third and not mouse_press[0] and len(points_list) >= 2:
+                equilateral_triangle = False
+                v1 = points_list[0]
+                v2 = points_list[-1]
+                
+                size_triangle = max(1, radius // 4)
+                draw_equilateral_triangle(min(v1[0], v2[0]), min(v1[1], v2[1]), max(v1[0], v2[0]), max(v1[1], v2[1]), main_screen, color, size_triangle)
+              
+                points_list = list()
+        elif rhombus:
+            global flag_some_fourth
+            if color == "white":
+                color = "black"
+            if mouse_press[0]:
+                flag_some_fourth = True
+                points_list.append(coord_mouse)
+            if flag_some_fourth and not mouse_press[0] and len(points_list) >= 2:
+                rhombus = False
+                v1 = points_list[0]
+                v2 = points_list[-1]
+                
+                size_rhombus = max(1, radius // 4)
+                draw_rhombus(min(v1[0], v2[0]), min(v1[1], v2[1]), max(v1[0], v2[0]), max(v1[1], v2[1]), main_screen, color, size_rhombus)
+              
+                points_list = list()
+
         else:
             if keyboard[K_UP]:
                 radius += 1
